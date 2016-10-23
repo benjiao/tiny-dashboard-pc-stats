@@ -3,6 +3,7 @@ import time
 import serial
 from serial.tools import list_ports
 import psutil
+import click
 
 
 START_MARKER = 'Clujlusjarr7'
@@ -18,7 +19,7 @@ def displayToHardware(s, line1, line2=""):
     s.write(line2_str + '\n')
 
 
-def run():
+def attempt_connection():
     serial_port = None
     ports = list_ports.comports()
     r = re.compile(r'^Arduino*')
@@ -51,10 +52,18 @@ def loop(serial_port):
         time.sleep(2)
 
 
-if __name__ == '__main__':
+@click.command()
+def cli():
     while True:
         try:
-            run()
+            attempt_connection()
+        except KeyboardInterrupt:
+            print "\nBye!"
+            break
         except:
             print "Connection failed! Retry in %s seconds..." % RETRY_INTERVAL
             time.sleep(RETRY_INTERVAL)
+
+
+if __name__ == '__main__':
+    cli()
