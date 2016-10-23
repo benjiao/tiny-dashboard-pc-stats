@@ -5,10 +5,10 @@ Arduino Code: USB https://github.com/benjiao/tiny-dashboard
 
 ## Install
 ```
-pip install -r requirements.txt
+python setup.py install
 ```
 
 ## Run Client
 ```
-python run.py
+$ pc-stats
 ```
